@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "build/client",
+  "framework": null,
+  "functions": {
+    "build/server/index.js": {
+      "runtime": "@vercel/node"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(api|integrations)/:path*",
+      "destination": "build/server/index.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "build/server/index.js"
+    }
+  ]
+}
