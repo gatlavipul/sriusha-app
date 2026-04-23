@@ -36,7 +36,11 @@ for (const method of ['log', 'info', 'warn', 'error', 'debug'] as const) {
   };
 }
 
-const sqlHttp = neon(process.env.DATABASE_URL!);
+if (!process.env.DATABASE_URL) {
+  console.warn('DATABASE_URL is not set. Database features will fail.');
+}
+
+const sqlHttp = neon(process.env.DATABASE_URL || '');
 const httpClient = {
   query: async (queryText: string, params?: unknown[]) => {
     const rows = await sqlHttp(queryText, params as never[]);
@@ -302,8 +306,3 @@ app.use('/api/auth/*', async (c, next) => {
 app.route(API_BASENAME, api);
 
 export { app };
-
-export default await createHonoServer({
-  app,
-  defaultLogger: false,
-});
