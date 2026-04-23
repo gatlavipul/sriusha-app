@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "pnpm run build",
+  "buildCommand": "npm run build",
   "outputDirectory": "build/client",
   "rewrites": [
-    {
-      "source": "/(api|integrations)/:path*",
-      "destination": "/api/index"
-    },
     {
       "source": "/(.*)",
       "destination": "/api/index"

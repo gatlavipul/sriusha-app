@@ -18,6 +18,20 @@ export default defineConfig({
   envPrefix: 'NEXT_PUBLIC_',
   build: {
     target: 'esnext',
+    rollupOptions: {
+      onwarn(warning, warn) {
+        const message =
+          typeof warning === 'string' ? warning : (warning?.message ?? '');
+        if (
+          message.includes(
+            "Error when using sourcemap for reporting an error: Can't resolve original location of error."
+          )
+        ) {
+          return;
+        }
+        warn(warning);
+      },
+    },
   },
   optimizeDeps: {
     // Explicitly include fast-glob, since it gets dynamically imported and we

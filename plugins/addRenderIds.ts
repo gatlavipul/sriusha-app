@@ -145,21 +145,24 @@ export function addRenderIds(): PluginOption {
     name: 'add-render-ids',
     enforce: 'pre',
     async transform(code, id) {
+      const cleanId = id.split('?')[0] ?? id;
       // need all module files AND the noLayout query (layout wrapper plugin)
       if (!/\.([cm]?[jt]sx)(\?noLayout)?$/.test(id)) {
         return null;
       }
-      if (!id.includes('apps/web/src/')) {
+      if (!cleanId.includes('apps/web/src/')) {
         return null;
       }
 
       const result = await babel.transformAsync(code, {
-        filename: id,
-        sourceMaps: true,
+        filename: cleanId,
+        // Sourcemaps from this synthetic JSX transform can produce noisy
+        // unresolved-location warnings in Vite logs for wrapped `?noLayout` files.
+        sourceMaps: false,
         babelrc: false,
         configFile: false,
         presets: [['@babel/preset-react', { runtime: 'automatic' }], '@babel/preset-typescript'],
-        plugins: [getRenderIdVisitor({ filename: id })],
+        plugins: [getRenderIdVisitor({ filename: cleanId })],
       });
 
       if (!result) return null;

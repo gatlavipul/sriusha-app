@@ -26,7 +26,7 @@ export interface HierarchicalLayoutOptions {
 const DEFAULT_PAGE_PATTERN = /\/page\.(jsx?)$/;
 const DEFAULT_LAYOUT_FILES = ['layout.jsx'];
 const DEFAULT_PARAM_PATTERN = /\[(\.{3})?([^\]]+)\]/g;
-const NO_LAYOUT_QUERY = '?noLayout.jsx';
+const NO_LAYOUT_QUERY = '?noLayout';
 
 export function layoutWrapperPlugin(userOpts: HierarchicalLayoutOptions = {}): Plugin {
   const opts: Required<HierarchicalLayoutOptions> = {
