@@ -54,6 +54,12 @@ const adapter = NeonAdapter(httpClient);
 
 const app = new Hono();
 
+app.use('*', async (c, next) => {
+  console.log(`[Request] ${c.req.method} ${c.req.url}`);
+  await next();
+  console.log(`[Response] ${c.req.method} ${c.req.url} - ${c.res.status}`);
+});
+
 app.use('*', requestId());
 
 app.use('*', (c, next) => {
@@ -308,4 +314,4 @@ app.use('/api/auth/*', async (c, next) => {
 });
 app.route(API_BASENAME, api);
 
-export default createHonoServer({ app });
+export { app };
