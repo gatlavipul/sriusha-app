@@ -251,9 +251,13 @@ function Adapter(client) {
     },
   };
 }
-const sqlClient = neon(process.env.DATABASE_URL);
+const getSqlClient = () => {
+  if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
+  return neon(process.env.DATABASE_URL);
+};
 const mockClient = {
   query: async (queryText, params) => {
+    const sqlClient = getSqlClient();
     const rows = await sqlClient(queryText, params);
     return { rows, rowCount: rows.length };
   }

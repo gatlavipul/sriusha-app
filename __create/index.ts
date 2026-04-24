@@ -40,9 +40,13 @@ if (!process.env.DATABASE_URL) {
   console.warn('DATABASE_URL is not set. Database features will fail.');
 }
 
-const sqlHttp = neon(process.env.DATABASE_URL || '');
+const getSqlHttp = () => {
+  if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
+  return neon(process.env.DATABASE_URL);
+};
 const httpClient = {
   query: async (queryText: string, params?: unknown[]) => {
+    const sqlHttp = getSqlHttp();
     const rows = await sqlHttp(queryText, params as never[]);
     return { rows, rowCount: rows.length };
   },
