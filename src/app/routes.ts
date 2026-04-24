@@ -4,7 +4,7 @@ import {
   route,
 } from '@react-router/dev/routes';
 
-const pages = import.meta.glob(['./**/page.jsx', '!./**/__*/**'], { eager: true });
+const pages = import.meta.glob(['./**/page.jsx', '!./**/__*/**']);
 
 const routes: RouteConfigEntry[] = Object.keys(pages).map((path) => {
   const relativePath = path.replace('./', '').replace('page.jsx', '');
