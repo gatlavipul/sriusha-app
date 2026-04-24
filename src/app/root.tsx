@@ -242,7 +242,7 @@ class ErrorBoundaryWrapper extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   render() {
     if (this.state.hasError) {
-      return <InternalErrorBoundary error={this.state.error} params={{}} />;
+      return <InternalErrorBoundary error={this.state.error} />;
     }
     return this.props.children;
   }
