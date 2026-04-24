@@ -1,4 +1,3 @@
-import { handle } from 'hono/vercel';
-import { app } from '../build/server/index.js';
-
-export default handle(app);
+export default function(req, res) {
+  res.status(200).send("Vercel Function is Active");
+}
