@@ -4,7 +4,7 @@
   "outputDirectory": "build/client",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!assets/|.*\\..*).*)",
       "destination": "/api/index"
     }
   ]

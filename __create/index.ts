@@ -1,5 +1,4 @@
-import { Agent, setGlobalDispatcher } from 'undici';
-setGlobalDispatcher(new Agent({ connect: { family: 4 } }));
+
 
 import { AsyncLocalStorage } from 'node:async_hooks';
 import nodeConsole from 'node:console';
@@ -309,4 +308,4 @@ app.use('/api/auth/*', async (c, next) => {
 });
 app.route(API_BASENAME, api);
 
-export { app };
+export default createHonoServer({ app });
