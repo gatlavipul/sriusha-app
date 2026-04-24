@@ -1,9 +1,12 @@
 import fg from 'fast-glob';
-import type { Route } from './+types/not-found';
 import { useNavigate } from 'react-router';
 import { useCallback, useEffect, useState } from 'react';
 
-export async function loader({ params }: Route.LoaderArgs) {
+type LoaderArgs = {
+  params: Record<string, string | undefined>;
+};
+
+export async function loader({ params }: LoaderArgs) {
   const matches = await fg('src/**/page.{js,jsx,ts,tsx}');
   return {
     path: `/${params['*']}`,

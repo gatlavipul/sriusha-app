@@ -32,7 +32,6 @@ import { useNavigate } from 'react-router';
 import { serializeError } from 'serialize-error';
 import { Toaster, toast } from 'sonner';
 import { useDevServerHeartbeat } from '../__create/useDevServerHeartbeat';
-import type { Route } from './+types/root';
 
 import appCss from './global.css?url';
 
@@ -63,7 +62,7 @@ if (import.meta.hot) {
   });
 }
 
-function InternalErrorBoundary({ error: errorArg }: Route.ErrorBoundaryProps) {
+function InternalErrorBoundary({ error: errorArg }: { error?: unknown }) {
   const routeError = useRouteError();
   const asyncError = useAsyncError();
   const error = errorArg ?? asyncError ?? routeError;
