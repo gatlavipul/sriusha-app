@@ -1,3 +1,4 @@
+import { put } from "@vercel/blob";
 import { auth } from "@/auth";
 
 export async function POST(request) {
@@ -31,14 +32,13 @@ export async function POST(request) {
       );
     }
 
-    // Convert file to base64 data URL for storage in database
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const base64 = buffer.toString("base64");
-    const dataUrl = `data:${file.type};base64,${base64}`;
+    // Upload to Vercel Blob
+    const blob = await put(`uploads/${Date.now()}-${file.name}`, file, {
+      access: "public",
+    });
 
     return Response.json({
-      url: dataUrl,
+      url: blob.url,
       name: file.name,
       size: file.size,
       type: file.type,

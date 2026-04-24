@@ -7,7 +7,7 @@ import CreateAuth from "@auth/create"
 import Credentials from "@auth/core/providers/credentials"
 import { CredentialsSignin } from '@auth/core/errors'
 import { neon } from '@neondatabase/serverless'
-import { hash, verify } from 'argon2'
+import bcrypt from 'bcryptjs'
 // Google provider removed - not configured
 
 function Adapter(client) {
@@ -298,7 +298,7 @@ export const { auth } = CreateAuth({
       throw new CredentialsSignin();
     }
 
-    const isValid = await verify(accountPassword, password);
+    const isValid = await bcrypt.compare(password, accountPassword);
     if (!isValid) {
       throw new CredentialsSignin();
     }
@@ -349,7 +349,7 @@ export const { auth } = CreateAuth({
       });
       await adapter.linkAccount({
         extraData: {
-          password: await hash(password),
+          password: await bcrypt.hash(password, 10),
         },
         type: 'credentials',
         userId: newUser.id,

@@ -1,5 +1,5 @@
 import sql from "@/app/api/utils/sql";
-import { hash } from "argon2";
+import bcrypt from "bcryptjs";
 
 export async function POST(request) {
   try {
@@ -34,7 +34,7 @@ export async function POST(request) {
     const newUser = newUsers[0];
 
     // Create credentials account
-    const hashedPassword = await hash(password);
+    const hashedPassword = await bcrypt.hash(password, 10);
     await sql`
       INSERT INTO auth_accounts (
         "userId", provider, type, "providerAccountId", password
